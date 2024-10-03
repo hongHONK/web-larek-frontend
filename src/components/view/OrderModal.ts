@@ -1,5 +1,7 @@
 import { PaymentMethod } from "../../types/components/model/WebLarekApi";
-import { IOrderModal, OrderModalSettings } from "../../types/components/view/OrderModal";
+import { IOrderModal, OrderModalChange, OrderModalData, OrderModalSettings } from "../../types/components/view/OrderModal";
+import { AltButtonOptions } from "../../types/settings";
+import { IEvents } from "../base/events";
 
 export class OrderModal implements IOrderModal {
     protected _element: HTMLElement;
@@ -8,29 +10,100 @@ export class OrderModal implements IOrderModal {
     protected _addressInput: HTMLInputElement;
     protected _submitButton: HTMLButtonElement;
     protected _error: HTMLElement;
+    protected _paymentMethod: PaymentMethod;
+    protected _altButtonOptions: AltButtonOptions;
 
     constructor(
         template: HTMLTemplateElement, 
-        settings: OrderModalSettings
-    ) {}
+        settings: OrderModalSettings,
+        protected events: IEvents
+    ) {
+        this._element = template.content.querySelector(settings.element).cloneNode(true) as HTMLElement;
+        this._cardButton = this._element.querySelector(settings.cardButton);
+        this._cashButton = this._element.querySelector(settings.cashButton);
+        this._addressInput = this._element.querySelector(settings.addressInput);
+        this._submitButton = this._element.querySelector(settings.submitButton);
+        this._error = this._element.querySelector(settings.error);
+        this._altButtonOptions = settings.altButtonOptions;
 
-    set paymentMethod(method: PaymentMethod) {}
+        this._cardButton.addEventListener('click', () => {
+            this.paymentMethod = PaymentMethod.Online;
+            this.validateData();
+        });
 
-    get paymentMethod() {}
+        this._cashButton.addEventListener('click', () => {
+            this.paymentMethod = PaymentMethod.Offline;
+            this.validateData();
+        });
 
-    set address(data: string) {}
+        this._addressInput.addEventListener('input', () => {
+            this.validateData();
+        });
 
-    get address() {}
+        this._element.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const orderData: OrderModalData = {
+                method: this._paymentMethod,
+                address: this._addressInput.value
+            };
+            
+            events.emit(OrderModalChange.submit, orderData);
+        })
+    }
 
-    set error(data: string) {}
+    set paymentMethod(method: PaymentMethod) {
+        if (this._paymentMethod != method) {
+            this._paymentMethod = method;
 
-    get error() {}
+            if (method == PaymentMethod.Online) {
+                this._cardButton.className = `${this._altButtonOptions.button} ${this._altButtonOptions.altButtonActive}`;
+                this._cashButton.className = `${this._altButtonOptions.button} ${this._altButtonOptions.altButton}`;
+            } else {
+                this._cardButton.className = `${this._altButtonOptions.button} ${this._altButtonOptions.altButton}`;
+                this._cashButton.className = `${this._altButtonOptions.button} ${this._altButtonOptions.altButtonActive}`;
+            }
+        }
+    }
 
-    render(): HTMLElement {}
+    get paymentMethod() {
+        return this._paymentMethod;
+    }
 
-    setAddressInputHandler(handler: Function): void {}
+    set address(data: string) {
+        this._addressInput.value = data;
+    }
 
-    setSubmitButtonHandler(handler: Function): void {}
+    get address() {
+        return this._addressInput.value || '';
+    }
 
-    clearValue() {}
+    set error(data: string) {
+        this._error.textContent = data;
+    }
+
+    render(data?: OrderModalData): HTMLElement {
+        if (data) {
+            this.paymentMethod = data.method;
+            this.address = data.address;
+        }
+
+        return this._element;
+    }
+
+    clearValue(): void {
+        this._addressInput.value = '';
+        
+        this._paymentMethod = undefined;
+        this._cardButton.className = `${this._altButtonOptions.button} ${this._altButtonOptions.altButton}`;
+        this._cashButton.className = `${this._altButtonOptions.button} ${this._altButtonOptions.altButton}`;
+    }
+
+    protected validateData() {
+        if(this._paymentMethod && this._addressInput.value) {
+            this._submitButton.disabled = false;
+        } else {
+            this._submitButton.disabled = true;
+        }
+    }
 }

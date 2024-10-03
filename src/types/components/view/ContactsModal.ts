@@ -1,8 +1,18 @@
 export interface ContactsModalSettings {
+    element: string;
     emailInput: string;
     phoneInput: string;
     submitButton: string;
     error: string;
+}
+
+export enum ContactsModalChange {
+    submit = 'submit:contactsModal'
+}
+
+export interface ContactsModalData {
+    email: string;
+    phone: string;
 }
 
 export interface IContactsModal {
@@ -11,8 +21,5 @@ export interface IContactsModal {
     error: string;
 
     render(): HTMLElement;
-    setEmailInputHandler(handler: Function): void;
-    setPhoneInputHandler(handler: Function): void;
-    setSubmitButtonHandler(handler: Function): void;
     clearValue(): void;
 }

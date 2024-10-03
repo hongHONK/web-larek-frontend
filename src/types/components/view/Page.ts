@@ -4,17 +4,18 @@ export interface PageSettings {
     modalContainerSelector: string;
     modalCloseButtonSelector: string;
     modalContentSelector: string;
+    modalActiveClass: string;
     bascetButtonSelector: string;
     bascetCounterSelector: string;
 }
 
-export interface IPage {
-    catalogContainer: HTMLElement[];
-    modalContainer: HTMLElement;
-    modalCloseButton: HTMLButtonElement;
-    modalContent: HTMLElement;
-    bascetCounter: number;
+export enum PageChange {
+    bascet = 'click:pageBascetOpen'
+}
 
-    setModalCloseButtonHandler(handler: Function): void;
-    setBuscetButtonHandler(handler: Function): void;
+export interface IPage {
+    catalogContent: HTMLElement[];
+    modalContent: HTMLElement;
+    modalIsActive: boolean;
+    bascetCounter: number;
 }

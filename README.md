@@ -162,8 +162,11 @@ constructor(baseUrl: string, imageBaseUrl: string, options?: RequestInit) {
 
 #### Конструктор
 ```typescript
-constructor(protected api: IWebLarekProdApi, protected events: IEvents) {
-    // Coming soon
+constructor(
+    protected api: IWebLarekProdApi,
+    protected events: IEvents
+) {
+    this._productList = new Map<string, Product>();
 }
 ```
 
@@ -191,9 +194,7 @@ constructor(protected api: IWebLarekProdApi, protected events: IEvents) {
 
 #### Конструктор
 ```typescript
-constructor(event: IEvents) {
-    // Coming soon
-}
+constructor(event: IEvents) {}
 ```
 
 - `event` - объект, являющийся брокером событий. В нем должны быть реализованы методы `on`, `emit` и `trigger`.
@@ -224,8 +225,11 @@ constructor(event: IEvents) {
 
 #### Конструктор
 ```typescript
-constructor(api: IWebLarekOrderApi, bascet: IBascetModel) {
-    // Coming soon
+constructor(
+    protected api: IWebLarekOrderApi,
+    bascet: IBascetModel 
+) {
+    this.bascet = bascet;
 }
 ```
 

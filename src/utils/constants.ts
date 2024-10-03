@@ -4,7 +4,11 @@ export const API_URL = `${process.env.API_ORIGIN}/api/weblarek`;
 export const CDN_URL = `${process.env.API_ORIGIN}/content/weblarek`;
 
 export const cardCategorySelectors: CardCategoryOptions = {
-    soft: '.card__category_soft'
+    soft: 'card__category_soft',
+    hard: 'card__category_hard',
+    other: 'card__category_other',
+    extra: 'card__category_additional',
+    button: 'card__category_button'
 }
 
 export const settings: Settings = {
@@ -24,8 +28,9 @@ export const settings: Settings = {
 
     catalogCardTemplate: '#card-catalog',
     catalogCardSettings: {
+        element: '.card',
         openButton: '.card',
-        cardCaregory: '.card__category',
+        category: '.card__category',
         title: '.card__title',
         image: '.card__image',
         price: '.card__price'
@@ -33,8 +38,9 @@ export const settings: Settings = {
 
     previewCardTemplate: '#card-preview',
     previewCardSettings: {
+        element: '.card_full',
         image: '.card__image',
-        cardCaregory: '.card__category',
+        category: '.card__category',
         title: '.card__title',
         text: '.card__text',
         bascetButton: '.card__button',
@@ -43,6 +49,7 @@ export const settings: Settings = {
 
     bascetCardTemplate: '#card-basket',
     bascetCardSettings: {
+        element: '.basket__item',
         index: '.basket__item-index',
         title: '.card__title',
         price: '.card__price',
@@ -51,6 +58,7 @@ export const settings: Settings = {
 
     bascetTemplate: '#basket',
     bascetSettings: {
+        element: '.basket',
         itemContainer: '.basket__list',
         confirmButton: '.basket__button',
         total: '.basket__price'
@@ -58,15 +66,22 @@ export const settings: Settings = {
 
     orderFormTemplate: '#order',
     orderFormSettings: {
+        element: 'form[name="order"]',
         cardButton: 'button[name="card"]',
         cashButton: 'button[name="cash"]',
         addressInput: 'input[name="address"]',
         submitButton: 'button[type="submit"]',
-        error: '.form__errors'
+        error: '.form__errors',
+        altButtonOptions: {
+            button: 'button',
+            altButton: 'button_alt',
+            altButtonActive: 'button_alt-active'
+        } 
     },
 
-    contactsFormTemplate: 'contacts',
+    contactsFormTemplate: '#contacts',
     contactsFormSettings: {
+        element: 'form[name="contacts"]',
         emailInput: 'input[name="email"]',
         phoneInput: 'input[name="phone"]',
         submitButton: 'button[type="submit"]',
@@ -74,7 +89,8 @@ export const settings: Settings = {
     },
 
     successTemplate: '#success',
-    successOptions: {
+    successSettings: {
+        element: '.order-success',
         description: '.order-success__description',
         confirmButton: '.order-success__close'
     },
@@ -83,7 +99,7 @@ export const settings: Settings = {
     modalContainerSetting: {
         content: '.modal__content',
         closeButton: '.modal__close',
-        activeClass: '.modal_active'
+        activeClass: 'modal_active'
     }
 };
 

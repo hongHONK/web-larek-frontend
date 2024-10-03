@@ -10,7 +10,7 @@ export class WebLarekApi extends Api implements IWebLarekProdApi, IWebLarekOrder
     }
 
     getProdList(): Promise<Product[]> {
-        return this.get(`${this.baseUrl}/product/`).then((res: ApiListResponse<Product>) => {
+        return this.get(`/product/`).then((res: ApiListResponse<Product>) => {
                 return res.items.map(item => {
                     item.image = this.imageBaseUrl + item.image;
                     return item;
@@ -20,7 +20,7 @@ export class WebLarekApi extends Api implements IWebLarekProdApi, IWebLarekOrder
     }
 
     getProdById(id: string): Promise<Product> {
-        return this.get(`${this.baseUrl}/product/${id}`).then((res: Product) => {
+        return this.get(`/product/${id}`).then((res: Product) => {
             res.image = this.imageBaseUrl + res.image;
             return res;
         })

@@ -1,11 +1,23 @@
+import { AltButtonOptions } from './../../settings';
 import { PaymentMethod } from './../model/WebLarekApi';
 
 export interface OrderModalSettings {
+    element: string;
     cardButton: string;
     cashButton: string;
     addressInput: string;
     submitButton: string;
     error: string;
+    altButtonOptions: AltButtonOptions;
+}
+
+export enum OrderModalChange {
+    submit = 'submit:orderModal'
+}
+
+export interface OrderModalData {
+    method: PaymentMethod;
+    address: string;
 }
 
 export interface IOrderModal {
@@ -14,7 +26,5 @@ export interface IOrderModal {
     error: string;
 
     render(): HTMLElement;
-    setAddressInputHandler(handler: Function): void;
-    setSubmitButtonHandler(handler: Function): void;
     clearValue(): void;
 }

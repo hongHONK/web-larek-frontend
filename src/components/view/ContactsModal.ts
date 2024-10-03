@@ -1,4 +1,5 @@
-import { ContactsModalSettings, IContactsModal } from "../../types/components/view/ContactsModal";
+import { ContactsModalChange, ContactsModalData, ContactsModalSettings, IContactsModal } from "../../types/components/view/ContactsModal";
+import { IEvents } from "../base/events";
 
 export class ContactsModal implements IContactsModal {
     protected _element: HTMLElement;
@@ -9,28 +10,75 @@ export class ContactsModal implements IContactsModal {
 
     constructor(
         template: HTMLTemplateElement,
-        settings: ContactsModalSettings
-    ) {}
+        settings: ContactsModalSettings,
+        protected events: IEvents
+    ) {
+        this._element = template.content.querySelector(settings.element).cloneNode(true) as HTMLTemplateElement;
+        this._emailInput = this._element.querySelector(settings.emailInput);
+        this._phoneInput = this._element.querySelector(settings.phoneInput);
+        this._submitButton = this._element.querySelector(settings.submitButton);
+        this._error = this._element.querySelector(settings.error);
 
-    set email(data: string) {}
+        this._emailInput.addEventListener('input', () => {
+            this.validateData();
+        });
 
-    get email() {}
+        this._phoneInput.addEventListener('input', () => {
+            this.validateData();
+        });
 
-    set phone(data: string) {}
+        this._element.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-    get phone() {}
+            const data: ContactsModalData = {
+                email: this.email,
+                phone: this.phone
+            }
 
-    set error(data: string) {}
+            events.emit(ContactsModalChange.submit, data);
+        });
+    }
 
-    get error() {}
+    set email(data: string) {
+        this._emailInput.value = data;
+    }
 
-    render(): HTMLElement {}
+    get email() {
+        return this._emailInput.value || '';
+    }
 
-    setEmailInputHandler(handler: Function): void {}
+    set phone(data: string) {
+        this._phoneInput.value = data;
+    }
 
-    setPhoneInputHandler(handler: Function): void {}
+    get phone() {
+        return this._phoneInput.value || '';
+    }
 
-    setSubmitButtonHandler(handler: Function): void {}
+    set error(data: string) {
+        this._error.textContent = data;
+    }
 
-    clearValue() {}
+    render(data?: ContactsModalData): HTMLElement {
+        if (data) {
+            this._emailInput.value = data.email;
+            this._phoneInput.value = data.phone;
+        }
+
+        return this._element;
+    }
+
+    clearValue() {
+        this.email = '';
+        this.phone = '';
+        this.error = '';
+    }
+
+    protected validateData() {
+        if(this._emailInput.value && this._phoneInput.value) {
+            this._submitButton.disabled = false;
+        } else {
+            this._submitButton.disabled = true;
+        }
+    }
 }

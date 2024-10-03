@@ -1,5 +1,15 @@
 export interface CardCategoryOptions {
     soft: string;
+    hard: string;
+    other: string;
+    extra: string;
+    button: string;
+}
+
+export interface AltButtonOptions {
+    button: string;
+    altButton: string;
+    altButtonActive: string;
 }
 
 export interface Settings {
@@ -19,8 +29,9 @@ export interface Settings {
 
     catalogCardTemplate: string;
     catalogCardSettings: {
+        element: string;
         openButton: string;
-        cardCaregory: string;
+        category: string;
         title: string;
         image: string;
         price: string;
@@ -28,8 +39,9 @@ export interface Settings {
 
     previewCardTemplate: string;
     previewCardSettings: {
+        element: string;
         image: string;
-        cardCaregory: string;
+        category: string;
         title: string;
         text: string;
         bascetButton: string;
@@ -38,6 +50,7 @@ export interface Settings {
 
     bascetCardTemplate: string;
     bascetCardSettings: {
+        element: string;
         index: string;
         title: string;
         price: string;
@@ -46,6 +59,7 @@ export interface Settings {
 
     bascetTemplate: string;
     bascetSettings: {
+        element: string;
         itemContainer: string;
         confirmButton: string;
         total: string;
@@ -53,15 +67,18 @@ export interface Settings {
 
     orderFormTemplate: string;
     orderFormSettings: {
+        element: string;
         cardButton: string;
         cashButton: string;
         addressInput: string;
         submitButton: string;
         error: string;
+        altButtonOptions: AltButtonOptions;
     };
 
     contactsFormTemplate: string;
     contactsFormSettings: {
+        element: string;
         emailInput: string;
         phoneInput: string;
         submitButton: string;
@@ -69,7 +86,8 @@ export interface Settings {
     };
 
     successTemplate: string;
-    successOptions: {
+    successSettings: {
+        element: string;
         description: string;
         confirmButton: string;
     };

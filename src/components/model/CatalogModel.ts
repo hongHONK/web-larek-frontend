@@ -8,15 +8,38 @@ export class CatalogModel implements ICatalogModel {
     constructor(
         protected api: IWebLarekProdApi,
         protected events: IEvents
-    ) {}
+    ) {
+        this._productList = new Map<string, Product>();
+    }
 
-    set productList(items: Product[]) {}
+    set productList(items: Product[]) {
+        items.forEach(item => {
+            this._productList.set(item.id, item);
+        })
+        this.onChange(CatalogChange.catalogList);
+    }
     
-    get productList() {}
+    get productList() {
+        let arr: Product[] = []
+        
+        this._productList.forEach(item => {
+            arr.push(item);
+        })
 
-    loadProducts() {}
+        return arr;
+    }
 
-    getProductById(id: string) {}
+    async loadProducts() {
+        const data = await this.api.getProdList();
+        this.productList = data;
+    }
 
-    protected onChange(change: CatalogChange) {}
+    getProductById(id: string) {
+        return this._productList.get(id);
+    }
+
+    protected onChange(change: CatalogChange) {
+        console.log(change);
+        this.events.emit(change, this.productList);
+    }
 }

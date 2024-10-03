@@ -12,4 +12,5 @@ export interface IBascetModel {
     
     addProduct(item: Product): void;
     removeProduct(item: Product): void;
+    resetBascet(): void;
 }

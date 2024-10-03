@@ -1,7 +1,12 @@
 export interface BascetModalSettings {
+    element: string;
     itemContainer: string;
     confirmButton: string;
     total: string;
+}
+
+export enum BascetModalChande {
+    confirm = 'click:bascetModalConfirm'
 }
 
 export interface BascetModalData {
@@ -14,5 +19,4 @@ export interface IBascetModal {
     total: number | null;
 
     render(data?: BascetModalData): HTMLElement;
-    setConfirmButtonHandler(handler: Function): void;
 }
