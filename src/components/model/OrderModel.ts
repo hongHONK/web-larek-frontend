@@ -10,7 +10,6 @@ export class OrderModel implements IOrderModel {
     protected _phone: string;
 
     constructor(
-        protected api: IWebLarekOrderApi,
         bascet: IBascetModel 
     ) {
         this.bascet = bascet;
@@ -49,7 +48,7 @@ export class OrderModel implements IOrderModel {
         return this._phone || '';
     }
 
-    sendOrder(): Promise<OrderResult> {
+    get order(): Order {
         const pricelessProductIdList = this.bascet.items.filter(item => {
             return item.price == null;
         }).map(item => {
@@ -67,6 +66,6 @@ export class OrderModel implements IOrderModel {
             })
         }
 
-        return this.api.postOrder(order);
+        return order;
     }
 }

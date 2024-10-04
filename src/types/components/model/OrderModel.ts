@@ -1,4 +1,4 @@
-import { OrderResult, PaymentMethod } from './WebLarekApi';
+import { Order, PaymentMethod } from './WebLarekApi';
 import { IBascetModel } from "./BascetModel";
 
 
@@ -9,5 +9,5 @@ export interface IOrderModel {
     email: string;
     phone: string;
 
-    sendOrder(): Promise<OrderResult>;
+    order: Order;
 }

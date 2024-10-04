@@ -72,6 +72,7 @@ export class ContactsModal implements IContactsModal {
         this.email = '';
         this.phone = '';
         this.error = '';
+        this.validateData();
     }
 
     protected validateData() {

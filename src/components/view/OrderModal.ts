@@ -97,6 +97,8 @@ export class OrderModal implements IOrderModal {
         this._paymentMethod = undefined;
         this._cardButton.className = `${this._altButtonOptions.button} ${this._altButtonOptions.altButton}`;
         this._cashButton.className = `${this._altButtonOptions.button} ${this._altButtonOptions.altButton}`;
+
+        this.validateData();
     }
 
     protected validateData() {

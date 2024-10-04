@@ -12,7 +12,7 @@
 - src/pages/index.html — HTML-файл главной страницы
 - src/types/index.ts — файл с типами
 - src/index.ts — точка входа приложения
-- src/styles/styles.scss — корневой файл стилей
+- src/scss/styles.scss — корневой файл стилей
 - src/utils/constants.ts — файл с константами
 - src/utils/utils.ts — файл с утилитами
 
@@ -163,14 +163,11 @@ constructor(baseUrl: string, imageBaseUrl: string, options?: RequestInit) {
 #### Конструктор
 ```typescript
 constructor(
-    protected api: IWebLarekProdApi,
     protected events: IEvents
 ) {
     this._productList = new Map<string, Product>();
 }
-```
-
-- `api` - объект взаимодействия с API проекта у которого реализованы методы `getProdList` и `getProdById`. 
+``` 
 
 - `events` - объект, являющийся брокером событий. В нем должны быть реализованы методы `on`, `emit` и `trigger`. 
 
@@ -178,9 +175,7 @@ constructor(
 
 - `set productList(items: Product[])` - сохраняет список продуктов в модели. В качестве параметра принимает массив объектов типа `Product`.
 
-- `get productList(): Product[]` - возвращает текущий список продуктов, сохранённый в модели. Возвращает массив объектов типа `Product`.
-
-- `loadProducts(): void` - загружает список продуктов с помощью API и сохраняет его в модели. Обычно вызывается для инициализации данных. 
+- `get productList(): Product[]` - возвращает текущий список продуктов, сохранённый в модели. Возвращает массив объектов типа `Product`. 
 
 - `getProductById(id: string): Product` - возвращает продукт по его идентификатору.
 
@@ -226,14 +221,11 @@ constructor(event: IEvents) {}
 #### Конструктор
 ```typescript
 constructor(
-    protected api: IWebLarekOrderApi,
     bascet: IBascetModel 
 ) {
     this.bascet = bascet;
 }
 ```
-
-- `api` - объект взаимодействия с API проекта у которого реализованы метод `postOrder`.
 
 - `bascet` - объект модели данных карзины.
 
@@ -255,7 +247,7 @@ constructor(
 
 - `get phone(): string` - возвращает текущий номер телефона для заказа в виде строки.
 
-- `sendOrder(): Promise<OrderResult>` - отправляет заказ через API. Все данные о заказе, включая товары из корзины, способ оплаты, адрес, электронную почту и телефон, передаются на сервер. В случае успешного запроса возвращает Promise с объектом типа `OrderResult`.
+- `get order(): Order` - Возвращает объект, включающий все данные о заказе, включая товары из корзины, способ оплаты, адрес, электронную почту и телефон.
 
 ## Компоненты отображения (View)
 

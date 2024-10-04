@@ -6,5 +6,6 @@ export enum CatalogChange {
 
 export interface ICatalogModel {
     productList: Product[];
-    getProductById(id: string): Product;
+
+    getProductById(id: string):Product;
 }

@@ -27,9 +27,9 @@ import { CatalogCardChange } from './types/components/view/CatalogCard';
 
 const api = new WebLarekApi(API_URL, CDN_URL);
 const events = new EventEmitter();
-const catalogModel = new CatalogModel(api, events);
+const catalogModel = new CatalogModel(events);
 const bascetModel = new BascetModel(events);
-const orderModel = new OrderModel(api, bascetModel);
+const orderModel = new OrderModel(bascetModel);
 
 const root = document.querySelector(settings.pageSelector) as HTMLElement;
 
@@ -92,13 +92,17 @@ events.on<OrderModalData>(OrderModalChange.submit, data => {
 events.on<ContactsModalData>(ContactsModalChange.submit, data => {
     orderModel.email = data.email;
     orderModel.phone = data.phone;
-
-    orderModel.sendOrder().then(res => {
-        page.modalContent = successModal.render(res);
-        orderModal.clearValue();
-        contactsModal.clearValue();
-        bascetModel.resetBascet();
-    });
+    try {
+        api.postOrder(orderModel.order).then(res => {
+            page.modalContent = successModal.render(res);
+            orderModal.clearValue();
+            contactsModal.clearValue();
+            bascetModel.resetBascet();
+        });
+    } catch (err) {
+        console.log(err);
+    }
+    
 })
 
 events.on(SuccessModalChange.confirm, () => {
@@ -128,4 +132,10 @@ events.on<IBascetModel>(BasketChange.bascetList, data => {
     bascetModal.total = data.totalPrice;
 })
 
-catalogModel.loadProducts();
+try {
+    api.getProdList().then(res => {
+        catalogModel.productList = res;
+    });
+} catch (err) {
+    console.log(err);
+}

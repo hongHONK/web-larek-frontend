@@ -6,7 +6,6 @@ export class CatalogModel implements ICatalogModel {
     protected _productList: Map<string, Product>;
 
     constructor(
-        protected api: IWebLarekProdApi,
         protected events: IEvents
     ) {
         this._productList = new Map<string, Product>();
@@ -27,11 +26,6 @@ export class CatalogModel implements ICatalogModel {
         })
 
         return arr;
-    }
-
-    async loadProducts() {
-        const data = await this.api.getProdList();
-        this.productList = data;
     }
 
     getProductById(id: string) {
